@@ -2,14 +2,6 @@ import styled, { css } from "styled-components";
 import { Column } from "@/styles/Common";
 
 const titleStyle = {
-    lineLarge: css`
-        display: flex;
-        flex-direction: column;
-        padding: 38px 0 24px;
-        font-size: ${({ theme }) => theme.font.title.medium};
-        font-weight: 500;
-        border-bottom: 2px solid ${({ theme }) => theme.color.neutral[900]};
-    `,
     large: css`
         font-size: ${({ theme }) => theme.font.title.big};
         font-weight: 900;
@@ -48,8 +40,26 @@ const textStyle = {
     `,
 };
 
+// 선 두께는 사이즈에 따라 자동 결정 (큰 제목 2px, 작은 제목 1px)
+const lineWidth = {
+    large: "2px",
+    medium: "2px",
+    primary: "1px",
+    small: "1px",
+    xsmall: "1px",
+};
+
 export const Heading = styled.h1`
     ${({ $size }) => titleStyle[$size]}
+    ${({ $line, $size, $padding }) =>
+        $line &&
+        css`
+            display: flex;
+            flex-direction: column;
+            padding: ${$padding ?? "38px 0 24px"};
+            border-bottom: ${lineWidth[$size] ?? "1px"} solid
+                ${({ theme }) => theme.color.neutral[900]};
+        `}
 `;
 
 export const Text = styled.p`

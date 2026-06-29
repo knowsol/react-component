@@ -1,21 +1,20 @@
-import { Column, RowCenter, Label, Required } from "@/styles/Common";
-import styled from "styled-components";
+import { Column } from "@/styles/Common";
 import { Heading } from "../Title/Title";
+import { FieldGroup, FieldControl } from "../Field/FieldGroup";
 import Input from "./Input";
 
 function InputGroup({ title, rows }) {
     return (
-        <Column $gap={16} $margin={24}>
-            <Heading as="p" variant=" lineLarge" size="medium">
+        <Column $mt={24}>
+            <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                 {title}
             </Heading>
             {rows.map((r) => (
-                <RowCenter key={r.label} $gap={8}>
-                    <Label>
-                        {r.label} {r.required && <Required>*</Required>}
-                    </Label>
-                    <Input state={r.state} placeholder={r.placeholder} />
-                </RowCenter>
+                <FieldGroup key={r.label} label={r.label} required={r.required}>
+                    <FieldControl state={r.state} helptext={r.helptext}>
+                        <Input state={r.state} placeholder={r.placeholder} defaultValue={r.defaultValue} />
+                    </FieldControl>
+                </FieldGroup>
             ))}
         </Column>
     );

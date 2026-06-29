@@ -7,7 +7,7 @@ const theme = {
         },
         secondary: {
             500: "#457CE1",
-            300: "#457CE14D",
+            100: "#457CE11A",
             20: "#457CE105",
             c50: "#F9FAFC",
             c100: "#E9ECF380",

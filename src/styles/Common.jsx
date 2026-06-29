@@ -77,3 +77,8 @@ export const Label = styled.label`
     display: flex;
     gap: ${({ theme }) => theme.spacing[4]};
 `;
+export const FieldLabel = styled(Label)`
+    min-width: 100px;
+    min-height: 38px;
+    align-items: center;
+`;

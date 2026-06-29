@@ -4,7 +4,6 @@ import { fieldBox, stateStyle, fieldStateStyle } from "../Field/fieldStyles";
 
 const ICON = {
     down: "/assets/icons/arrow_down.svg",
-    up: "/assets/icons/arrow_up.svg",
     chk: "/assets/icons/chk.svg",
     unChk: "/assets/icons/un_chk.svg",
 };
@@ -53,6 +52,9 @@ const Arrow = styled.img`
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+    /* down 아이콘 하나만 쓰고 열리면 180° 회전 → 부드럽게 전환 */
+    transition: all 0.3s ease;
+    transform: rotate(${({ $open }) => ($open ? "180deg" : "0deg")});
 `;
 
 const Menu = styled.ul`
@@ -152,7 +154,7 @@ function Dropbox({ state, placeholder = "입력하세요", options = [], multipl
         <Wrapper ref={ref} onMouseDown={(e) => e.stopPropagation()}>
             <Trigger $state={state} $open={open} $locked={locked} $placeholder={isPlaceholder} onClick={toggleOpen}>
                 <Value>{renderValue()}</Value>
-                <Arrow src={open ? ICON.up : ICON.down} alt="" aria-hidden />
+                <Arrow src={ICON.down} $open={open} alt="" aria-hidden />
             </Trigger>
 
             {open && !locked && (

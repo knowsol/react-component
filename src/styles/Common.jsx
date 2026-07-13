@@ -1,11 +1,19 @@
 import styled from "styled-components";
 
-// 공통으로 쓰일 요소만 정리
+const resolveSpacing = (theme, value, fallback) => {
+    if (value == null) return fallback;
+    return theme.spacing[value] ?? value;
+};
+
 export const Column = styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme, $gap }) => theme.spacing[$gap] ?? theme.spacing[16]};
-    margin: ${({ theme, $margin }) => theme.spacing[$margin] ?? theme.spacing[0]};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[16])};
+    margin: ${({ theme, $margin }) => resolveSpacing(theme, $margin, theme.spacing[0])};
+    ${({ theme, $mt }) => {
+        if ($mt == null) return "";
+        return `margin-top: ${theme.spacing[$mt] ?? `${$mt}px`};`;
+    }}
 `;
 export const CenterColumn = styled(Column)`
     align-items: center;
@@ -14,10 +22,34 @@ export const CenterColumn = styled(Column)`
 export const Row = styled.div`
     display: flex;
     flex-direction: row;
-    gap: ${({ theme, $gap }) => theme.spacing[$gap] ?? theme.spacing[32]};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[32])};
+    align-items: ${({ $align }) => $align ?? "flex-start"};
+    justify-content: ${({ $justify }) => $justify ?? "flex-start"};
 `;
 export const RowCenter = styled(Row)`
     align-items: center;
+`;
+
+export const FormItemsRow = styled(Row)`
+    display: flex;
+    align-items: ${({ $align }) => $align ?? "flex-end"};
+    flex-wrap: ${({ $wrap = "wrap" }) => $wrap};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[8])};
+    min-width: 0;
+`;
+
+export const FormGroupRow = styled.div`
+    display: flex;
+    align-items: ${({ $align = "stretch" }) => $align};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[4])};
+`;
+
+export const FormItemColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: ${({ $align = "stretch" }) => $align};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[4])};
+    min-width: 0;
 `;
 export const Required = styled.div`
     color: ${({ theme }) => theme.color.semantic.error};
@@ -26,7 +58,7 @@ export const Page = styled.div`
     padding: 80px 100px;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme, $gap }) => theme.spacing[$gap] ?? theme.spacing[48]};
+    gap: ${({ theme, $gap }) => resolveSpacing(theme, $gap, theme.spacing[48])};
     width: 100%;
 `;
 export const Section = styled.section`
@@ -80,5 +112,22 @@ export const Label = styled.label`
 export const FieldLabel = styled(Label)`
     min-width: 100px;
     min-height: 38px;
+    padding: 10px 6px 0 0;
     align-items: center;
+`;
+export const IconButton = styled.button`
+    display: inline-flex;
+    align-items: ${({ $align }) => $align ?? "center"};
+    justify-content: center;
+    width: ${({ theme, $size }) => theme.icon[$size] ?? $size ?? theme.icon.primary};
+    height: ${({ theme, $size }) => theme.icon[$size] ?? $size ?? theme.icon.primary};
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.4;
+    }
 `;

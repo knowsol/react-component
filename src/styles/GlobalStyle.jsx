@@ -94,6 +94,14 @@ const GlobalStyle = createGlobalStyle`
   button:disabled {
     cursor: default;
   }
+
+  /* Air Datepicker 캘린더 기본 테두리색 → #888 (팝업·인라인 모두).
+     캘린더는 body에 붙어 컴포넌트 밖이라 여기 글로벌에서 CSS 변수를 덮는다.
+     .air-datepicker를 두 번 겹쳐 specificity를 올려 라이브러리 기본값(단일 클래스)을 확실히 이긴다. */
+  .air-datepicker.air-datepicker {
+    --adp-border-color: #888;
+    --adp-border-color-inline: #888;
+  }
 `;
 
 export default GlobalStyle;

@@ -1,7 +1,6 @@
-import React from "react";
 import Box from "@/components/Box/Box";
 import { Text } from "@/components/Title/Title";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Column, CenterColumn, Page, Section, SectionTitle } from "@/styles/Common";
 import TypoTable from "@/components/Table/TypoTable";
 import { typoTableHead, typoTableBody } from "@/components/Table/tableData";

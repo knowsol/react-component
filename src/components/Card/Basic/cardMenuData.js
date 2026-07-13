@@ -15,4 +15,34 @@ export const cardMenu = [
         name: "Component",
         desc: "Input 등 UI 컴포넌트",
     },
+    {
+        path: "/buttons",
+        name: "Buttons",
+        desc: "버튼 UI 컴포넌트",
+    },
+    {
+        path: "/table",
+        name: "Table ",
+        desc: "-",
+    },
+    {
+        path: "/gnb",
+        name: "GNB ",
+        desc: "-",
+    },
+    {
+        path: "/tab",
+        name: "Tab ",
+        desc: "-",
+    },
+    {
+        path: "/layerpop",
+        name: "Layerpop",
+        desc: "-",
+    },
+    {
+        path: "/admin",
+        name: "Admin",
+        desc: "GNB · Icon Sidebar · Table page",
+    },
 ];

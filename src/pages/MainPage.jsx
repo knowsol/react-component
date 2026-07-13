@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Card from "@/components/Card/Basic/Card";
 import { cardMenu } from "@/components/Card/Basic/cardMenuData";
@@ -28,8 +27,8 @@ const Path = styled.span`
 function MainPage() {
     return (
         <Wrap>
-            {cardMenu.map((m) => (
-                <Card key={m.path} to={m.path}>
+            {cardMenu.map((m, index) => (
+                <Card key={`${m.path}-${index}`} to={m.path}>
                     <Name>{m.name}</Name>
                     <Desc>{m.desc}</Desc>
                     <Path>{m.path}</Path>

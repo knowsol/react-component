@@ -49,6 +49,7 @@ const lineWidth = {
     xsmall: "1px",
 };
 
+// eslint-disable-next-line react-refresh/only-export-components -- styled 컴포넌트를 룰이 컴포넌트로 인식 못 함
 export const Heading = styled.h1`
     ${({ $size }) => titleStyle[$size]}
     ${({ $line, $size, $padding }) =>
@@ -62,6 +63,7 @@ export const Heading = styled.h1`
         `}
 `;
 
+// eslint-disable-next-line react-refresh/only-export-components -- styled 컴포넌트를 룰이 컴포넌트로 인식 못 함
 export const Text = styled.p`
     ${({ $size }) => textStyle[$size]}
 `;

@@ -44,13 +44,16 @@ const theme = {
             state9: "#00A170",
             state10: "#8C939D",
         },
+        brand: {
+            blue: "#005CB9",
+        },
     },
     font: {
         sans: "Pretendard, Roboto, system-ui, sans-serif",
         size: {
             xsmall: "12px",
             small: "14px",
-            primary: "16px",
+            primary: "15px",
             medium: "18px",
             large: "20px",
             xl: "24px",
@@ -79,6 +82,14 @@ const theme = {
             large: "16px",
             round: "999px",
         },
+    },
+    icon: {
+        xsmall: "12px",
+        small: "16px",
+        medium: "20px",
+        primary: "22px",
+        large: "32px",
+        xlarge: "40px",
     },
     spacing: {
         0: "0",

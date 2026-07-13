@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ColorCard from "@/components/Card/Color/ColorCard";
 import colorSections from "@/components/Card/Basic/cardData";
 import { Page, Column, Section, SectionTitle } from "@/styles/Common";
-import { Heading, Text } from "@/components/Title/Title";
+import { Text } from "@/components/Title/Title";
 
 const CardRow = styled.div`
     display: flex;

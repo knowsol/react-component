@@ -1,4 +1,3 @@
-import React from "react";
 import { Table, Thead, Tbody, Th, Td } from "@/styles/Common";
 import styled, { css } from "styled-components";
 

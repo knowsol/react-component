@@ -12,7 +12,7 @@ export const dropData = [
             {
                 label: "Focus",
                 boxes: [
-                    { state: "focus", defaultOpen: true, value: "선택2", options: singleOptions },
+                    { state: "focus", defaultOpen: true, defaultValue: "선택2", options: singleOptions },
                     {
                         state: "focus",
                         defaultOpen: true,
@@ -25,19 +25,19 @@ export const dropData = [
             },
             {
                 label: "Filled",
-                boxes: [{ state: "filled", value: "가나다", options: singleOptions }],
+                boxes: [{ state: "filled", defaultValue: "가나다", options: singleOptions }],
             },
             {
                 label: "Disabled",
-                boxes: [{ state: "disabled", value: "가나다", options: singleOptions }],
+                boxes: [{ state: "disabled", defaultValue: "가나다", options: singleOptions }],
             },
             {
                 label: "Readonly",
-                boxes: [{ state: "readonly", value: "가나다", options: singleOptions }],
+                boxes: [{ state: "readonly", defaultValue: "가나다", options: singleOptions }],
             },
             {
                 label: "Error",
-                boxes: [{ state: "error", value: "가나다", options: singleOptions, helptext: "에러문구" }],
+                boxes: [{ state: "error", defaultValue: "가나다", options: singleOptions, helptext: "에러문구" }],
             },
         ],
     },

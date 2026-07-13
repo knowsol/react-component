@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const FooterWrapper = styled.div`
@@ -43,7 +42,7 @@ const Footer = () => {
                 </FooterMenus>
                 <FooterLogo src="/assets/images/logo.svg" alt="logo" />
             </div>
-            <p>&copy; 2026 My App. All rights reserved.</p>
+            <p>&copy; 2026 Knowwheresoft All rights reserved.</p>
         </FooterWrapper>
     );
 };

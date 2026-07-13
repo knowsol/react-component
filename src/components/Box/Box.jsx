@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { css } from "styled-components";
 
 const variants = {
@@ -22,7 +21,7 @@ const variants = {
     `,
     normal: css`
         background-color: ${({ theme }) => theme.color.pure.white};
-        border: 4px solid transparent;
+        border: 3px solid transparent;
         width: 100%;
     `,
 };

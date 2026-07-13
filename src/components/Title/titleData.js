@@ -20,6 +20,31 @@ const titleData = [
         main: "Component",
         sub: "버튼, 입력 필드, 내비게이션, 피드백 요소 등 화면을 구성하는 최소 단위의 UI 요소로, 일관된 규칙에 따라 조합되어 사용자의 상호작용과 시스템 피드백을 지원합니다.",
     },
+    {
+        path: "/buttons",
+        main: "Buttons",
+        sub: "-",
+    },
+    {
+        path: "/table",
+        main: "Table",
+        sub: "-",
+    },
+    {
+        path: "/gnb",
+        main: "GNB",
+        sub: "-",
+    },
+    {
+        path: "/tab",
+        main: "Tab",
+        sub: "-",
+    },
+    {
+        path: "/layerpop",
+        main: "Layerpop",
+        sub: "-",
+    },
 ];
 
 export default titleData;

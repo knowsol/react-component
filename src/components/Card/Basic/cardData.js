@@ -16,7 +16,7 @@ const colorSections = [
         desc: "강조 요소, 보조 배경, 차트 구분 등에 사용",
         colors: [
             { name: "Deep Blue 500", color: theme.color.secondary[500] },
-            { name: "Deep Blue 300", color: theme.color.secondary[300] },
+            { name: "Deep Blue 100", color: theme.color.secondary[100] },
             { name: "Deep Blue 20", color: theme.color.secondary[20] },
             { name: "Cool gray 50", color: theme.color.secondary.c50 },
             { name: "Cool gray 100", color: theme.color.secondary.c100 },

@@ -359,6 +359,17 @@ function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range 
                 const anchor = range ? rangeWrapRef.current : singleBoxRef.current;
                 if (!anchor) return;
 
+                if (visible) {
+                    $datepicker.style.removeProperty("--adp-width");
+                    $datepicker.style.removeProperty("--ds-pointer-left");
+                    $datepicker.style.removeProperty("position");
+                    $datepicker.style.removeProperty("left");
+                    $datepicker.style.removeProperty("top");
+                    anchor.style.marginBottom = "";
+                    rangeStackRef.current?.style.removeProperty("--range-help-top");
+                    return;
+                }
+
                 const pointerTarget =
                     range && activeRangeInputRef.current === "end" ? rangeEndBoxRef.current : rangeStartBoxRef.current || singleBoxRef.current || anchor;
                 const anchorRect = anchor.getBoundingClientRect();
@@ -378,11 +389,7 @@ function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range 
 
                 // 항상 열려있는(visible) 캘린더만 아래 공간을 확보한다(footer 등과 안 겹치게).
                 // 클릭 팝업(라벨 필드)은 공간을 확보하지 않고 absolute로 겹쳐 떠서, 열려도 아래 인풋을 밀지 않는다.
-                if (visible) {
-                    const calBottom = $datepicker.getBoundingClientRect().bottom;
-                    const anchorBottom = anchor.getBoundingClientRect().bottom;
-                    anchor.style.marginBottom = `${Math.max(0, Math.round(calBottom - anchorBottom + HELP_GAP))}px`;
-                } else if (range && rangeStackRef.current) {
+                if (range && rangeStackRef.current) {
                     const pickerBottom = $datepicker.getBoundingClientRect().bottom;
                     const stackTop = rangeStackRef.current.getBoundingClientRect().top;
                     rangeStackRef.current.style.setProperty("--range-help-top", `${Math.max(0, Math.round(pickerBottom - stackTop + HELP_GAP))}px`);
@@ -435,17 +442,22 @@ function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range 
             visible: false,
             offset: 0,
             classes: getPickerClasses(state),
-            position: positionPicker,
+            position: visible ? undefined : positionPicker,
             onBeforeSelect: ({ date }) => {
                 pendingSelectDateRef.current = date;
                 return true;
             },
             onSelect: ({ date, datepicker }) => {
-                if (!range) return;
-
                 const selectedDate = pendingSelectDateRef.current || (Array.isArray(date) ? date[date.length - 1] : date);
                 pendingSelectDateRef.current = null;
                 if (!(selectedDate instanceof Date)) return;
+
+                if (!range) {
+                    if (visible && inputRef.current) {
+                        inputRef.current.value = formatDateValue(selectedDate, monthMode);
+                    }
+                    return;
+                }
 
                 if (activeRangeInputRef.current === "end") {
                     const startDate = rangeStartDateRef.current;
@@ -519,12 +531,12 @@ function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range 
 
         picker.classList.toggle("ds-datepicker--error", state === "error" || rangeValidationError);
 
-        if (rangeValidationError) {
+        if (rangeValidationError && !visible) {
             window.requestAnimationFrame(() => {
                 dpRef.current?.setPosition?.(positionPicker);
             });
         }
-    }, [positionPicker, rangeValidationError, state]);
+    }, [positionPicker, rangeValidationError, state, visible]);
 
     const showPicker = (target = "start") => {
         if (locked) return;

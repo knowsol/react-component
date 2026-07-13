@@ -112,7 +112,7 @@ export const Label = styled.label`
 export const FieldLabel = styled(Label)`
     min-width: 100px;
     min-height: 38px;
-    padding: 10px 6px 0 0;
+    padding: 0 6px 0 0;
     align-items: center;
 `;
 export const IconButton = styled.button`

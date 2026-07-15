@@ -50,11 +50,11 @@ npm run dev
 npm run pack:local
 ```
 
-프로젝트 루트에 `react-component-0.0.9.tgz`가 생성됩니다. **컴포넌트를 사용하는 프로젝트**에서는 `pack:local`을 실행하지 않고 전달받은 파일만 설치합니다.
+프로젝트 루트에 `react-component-0.0.10.tgz`가 생성됩니다. **컴포넌트를 사용하는 프로젝트**에서는 `pack:local`을 실행하지 않고 전달받은 파일만 설치합니다.
 
 ```bash
 # 컴포넌트를 사용하는 프로젝트에서 실행
-npm install ../react-component/react-component-0.0.9.tgz
+npm install ../react-component/react-component-0.0.10.tgz
 ```
 
 ### 새 React 프로젝트에서 사용
@@ -66,13 +66,13 @@ npm create vite@latest my-project -- --template react
 cd my-project
 npm install
 npm install styled-components react-router-dom
-npm install C:\Users\MIN\git\react-component\react-component-0.0.9.tgz
+npm install C:\Users\MIN\git\react-component\react-component-0.0.10.tgz
 ```
 
 다른 PC에서 사용한다면 `C:\Users\...` 경로를 사용할 수 없으므로 `.tgz` 파일을 새 PC나 프로젝트 폴더로 전달한 뒤 해당 위치에서 설치합니다.
 
 ```bash
-npm install ./packages/react-component-0.0.9.tgz
+npm install ./packages/react-component-0.0.10.tgz
 ```
 
 새 프로젝트의 `src/main.jsx`에 ThemeProvider와 공통 전역 스타일을 연결합니다.

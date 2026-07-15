@@ -1,7 +1,7 @@
 {
     "name": "react-component",
     "private": true,
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "Reusable React components for internal applications",
     "type": "module",
     "main": "./dist-lib/index.js",

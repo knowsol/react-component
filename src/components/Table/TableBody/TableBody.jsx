@@ -172,7 +172,7 @@ function TableBody({
     onSelectedRowIdsChange,
     onRowClick,
     isRowClickable,
-    selectOnRowClick = false,
+    selectOnRowClick = true,
     fixedColumns = false,
     columnLine = fixedColumns,
     maxHeight = "392px",
@@ -292,10 +292,11 @@ function TableBody({
                     {rows.map((row, rowIndex) => {
                         const rowId = getRowId(row, rowIndex, rowKey);
                         const selected = selectedRowSet.has(rowId);
-                        const rowClickable = Boolean(onRowClick) && (isRowClickable ? isRowClickable(row, rowIndex) : true);
+                        const selectableOnRowClick = selectOnRowClick && !row.disabled;
+                        const rowClickable = (Boolean(onRowClick) || selectableOnRowClick) && (isRowClickable ? isRowClickable(row, rowIndex) : true);
 
                         const handleRowClick = (event) => {
-                            if (selectOnRowClick) selectRow(row, rowIndex);
+                            if (selectableOnRowClick) selectRow(row, rowIndex);
                             onRowClick?.(row, rowIndex, event);
                         };
 

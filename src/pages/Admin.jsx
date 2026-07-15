@@ -7,10 +7,9 @@ import { layerPopData } from "@/components/LayerPopup/layerPopData";
 import { sidebarLayerPopupProps } from "@/components/LayerPopup/sidebarLayerPopupData";
 import SidebarLayerPopupContent from "@/components/LayerPopup/SidebarLayerPopupContent";
 import SearchFilter from "@/components/SearchFilter/SearchFilter";
-import Pagination from "@/components/Pagination/Pagination";
-import TableContent from "@/components/Table/TableBody/TableContent";
-import { tableContentColumns, tableContentRows, tableContentTotalCount } from "@/components/Table/TableBody/tableContentData";
-import { tableHeaderData } from "@/components/Table/tableData";
+import PaginatedTableContent from "@/components/Table/PaginatedTableContent";
+import { tableContentColumns, tableContentRows } from "@/components/Table/TableBody/tableContentData";
+import { tableHeaderData } from "@/components/Table/TableHeader/tableHeaderData";
 import BookmarkButton from "@/components/Table/TableHeader/BookmarkButton";
 import TableHeaderSection from "@/components/Table/TableHeader/TableHeaderSection";
 import { Icon } from "@/components/Icon/Icon";
@@ -139,8 +138,14 @@ function Admin() {
                                 <SearchFilter />
                             </ScrollBlock>
                             <TableHeaderSection {...resultTableHeader} compact />
-                            <TableContent columns={tableContentColumns} rows={tableContentRows} topBorder selectOnRowClick isRowClickable={(_, rowIndex) => rowIndex === 0} onRowClick={() => setSidebarPopupOpen(true)} />
-                            <Pagination totalCount={tableContentTotalCount} />
+                            <PaginatedTableContent
+                                columns={tableContentColumns}
+                                rows={tableContentRows}
+                                topBorder
+                                selectOnRowClick
+                                isRowClickable={(_, rowIndex) => rowIndex === 0}
+                                onRowClick={() => setSidebarPopupOpen(true)}
+                            />
                         </Stack>
                     </ContentArea>
                 </AdminBody>

@@ -171,7 +171,7 @@ function SidebarLayerPopupContent({ onClose }) {
                     </PopupScrollArea>
 
                     <PopupFooter>
-                        <Button variant="primary" kind="solid" width="100%" height="48px" onClick={onClose}>
+                        <Button variant="primary" kind="solid" colorToken="brand.green" width="100%" height="48px" onClick={onClose}>
                             버튼
                         </Button>
                     </PopupFooter>

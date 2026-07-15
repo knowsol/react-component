@@ -2,10 +2,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Column } from "@/styles/Common";
 import { Heading } from "../Title/Title";
-import { fieldBox } from "../Field/fieldStyles";
+import { fieldBox, fieldStateStyle } from "../Field/fieldStyles";
 
 const TextField = styled.textarea`
     ${fieldBox}
+    ${fieldStateStyle()}
     width: 100%;
     height: ${({ $height }) => $height ?? "auto"};
     min-height: ${({ $minHeight }) => $minHeight};
@@ -23,6 +24,7 @@ const CountNum = styled.p`
 
 const Textarea = ({
     title,
+    state,
     total = 999,
     placeholder = "입력하세요",
     value: controlledValue,
@@ -54,6 +56,9 @@ const Textarea = ({
                 </Heading>
             )}
             <TextField
+                $state={state}
+                disabled={state === "disabled"}
+                readOnly={state === "readonly"}
                 placeholder={placeholder}
                 value={value}
                 maxLength={total}

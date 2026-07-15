@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Box from "@/components/Box/Box";
 import { Icon } from "@/components/Icon/Icon";
 import { RowCenter, FormItemsRow } from "@/styles/Common";
-import { tableHeaderData } from "./tableData";
+import { tableHeaderData } from "./TableHeader/tableHeaderData";
 import SearchFilter from "../SearchFilter/SearchFilter";
 import BookmarkButton from "./TableHeader/BookmarkButton";
 import TableHeaderSection from "./TableHeader/TableHeaderSection";

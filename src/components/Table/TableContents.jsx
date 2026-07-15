@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Box from "@/components/Box/Box";
-import Pagination from "@/components/Pagination/Pagination";
+import PaginatedTableContent from "./PaginatedTableContent";
 import TableContent from "./TableBody/TableContent";
 import TableHeaderSection from "./TableHeader/TableHeaderSection";
-import { emptyTableRows, tableContentColumns, tableContentRows, tableContentTotalCount } from "./TableBody/tableContentData";
+import { emptyTableRows, tableContentColumns, tableContentRows } from "./TableBody/tableContentData";
 
 const ContentWrap = styled.div`
     display: flex;
@@ -25,13 +25,11 @@ function TableContents() {
                 </TableBlock>
                 <TableBlock>
                     <TableHeaderSection title="데이터가 있는 경우" compact />
-                    <TableContent columns={tableContentColumns} rows={tableContentRows} />
-                    <Pagination totalCount={tableContentTotalCount} />
+                    <PaginatedTableContent columns={tableContentColumns} rows={tableContentRows} />
                 </TableBlock>
                 <TableBlock>
                     <TableHeaderSection title="열고정 테이블" compact />
-                    <TableContent columns={tableContentColumns} rows={tableContentRows} fixedColumns />
-                    <Pagination totalCount={tableContentTotalCount} />
+                    <PaginatedTableContent columns={tableContentColumns} rows={tableContentRows} fixedColumns />
                 </TableBlock>
             </ContentWrap>
         </Box>

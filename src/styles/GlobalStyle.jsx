@@ -1,48 +1,54 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
+
+const fontFaces = (fontBaseUrl) =>
+    fontBaseUrl &&
+    css`
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-ExtraLight.woff2") format("woff2");
+            font-weight: 200;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-Light.woff2") format("woff2");
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-Regular.woff2") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-Medium.woff2") format("woff2");
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-SemiBold.woff2") format("woff2");
+            font-weight: 600;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-Bold.woff2") format("woff2");
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Pretendard";
+            src: url("${fontBaseUrl}/Pretendard-ExtraBold.woff2") format("woff2");
+            font-weight: 800;
+            font-style: normal;
+        }
+    `;
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/assets/fonts/Pretendard-ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-style: normal;
-  }
+  ${({ $fontBaseUrl }) => fontFaces($fontBaseUrl)}
 
   :root {
     font: ${({ theme }) => theme.font.size.large}/${({ theme }) => theme.font.lineHeight} ${({ theme }) => theme.font.sans};

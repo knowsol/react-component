@@ -6,7 +6,7 @@ import GlobalStyle from "@/styles/GlobalStyle";
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <GlobalStyle />
+            <GlobalStyle $fontBaseUrl="/assets/fonts" />
             <RoutePage />
         </ThemeProvider>
     );

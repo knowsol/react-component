@@ -4,9 +4,11 @@ import { fieldBox, stateStyle, fieldStateStyle } from "../Field/fieldStyles";
 import { Icon } from "@/components/Icon/Icon";
 import { ICON } from "@/components/Icon/IconData";
 
+const resolveColorToken = (theme, colorToken) => colorToken?.split(".").reduce((color, key) => color?.[key], theme.color);
+
 const Wrapper = styled.div`
     position: relative;
-    width: ${({ $bare }) => ($bare ? "auto" : "100%")};
+    width: ${({ $bare, $triggerFullWidth }) => ($triggerFullWidth ? "100%" : $bare ? "auto" : "100%")};
     min-width: 0;
 `;
 
@@ -20,11 +22,8 @@ const Trigger = styled.div`
     cursor: ${({ $locked }) => ($locked ? "default" : "pointer")};
     user-select: none;
 
-    ${({ $placeholder, theme }) =>
-        $placeholder &&
-        css`
-            color: ${theme.color.neutral[600]};
-        `}
+    color: ${({ theme, $placeholder, $focused, $focusTextColorToken }) =>
+        ($focused && resolveColorToken(theme, $focusTextColorToken)) || ($placeholder ? theme.color.neutral[600] : theme.color.neutral[900])};
     /* 펼쳤을 때(active) 파란선. bare는 테두리가 없어 생략. 잠금 상태는 열리지 않으니 $open이 안 들어오고,
        혹시 상태색이 있으면 아래 fieldStateStyle이 그 위를 덮는다. */
     ${({ $open, $bare }) =>
@@ -54,6 +53,7 @@ const Arrow = styled.img`
 // 커스텀 트리거(버튼 등)를 감싸는 슬롯. 클릭만 받고 모양은 children이 결정한다.
 const TriggerSlot = styled.span`
     display: inline-flex;
+    width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
     cursor: pointer;
 `;
 
@@ -97,11 +97,14 @@ const Option = styled.li`
     gap: 8px;
     padding: 10px 12px;
     border-radius: 4px;
+    font-family: ${({ theme }) => theme.font.sans};
     font-size: ${({ theme }) => theme.font.size.primary};
+    font-weight: ${({ theme }) => theme.font.weight.regular};
     line-height: 24px;
     letter-spacing: -0.3px;
     cursor: pointer;
-    color: ${({ theme, $selected }) => ($selected ? theme.color.secondary[500] : theme.color.neutral[900])};
+    color: ${({ theme, $selected, $selectedColorToken }) =>
+        $selected ? (resolveColorToken(theme, $selectedColorToken) ?? theme.color.secondary[500]) : theme.color.neutral[900]};
 
     &:hover {
         background-color: ${({ theme }) => theme.color.secondary.c100};
@@ -130,7 +133,10 @@ function Dropbox({
     defaultOpen = false,
     bare = false,
     trigger,
+    triggerFullWidth = false,
     dropUp = false,
+    focusTextColorToken,
+    selectedColorToken,
     onSelect, // 단일 선택: (value, option) => void
     onChange, // 다중 선택: (checkedValues) => void
 }) {
@@ -195,13 +201,24 @@ function Dropbox({
 
     return (
         // 각 드롭다운이 독립 동작하도록, 내부 클릭의 mousedown 전파를 막아 다른 드롭다운이 닫히지 않게 한다.
-        <Wrapper ref={ref} $bare={bare || !!trigger} onMouseDown={(e) => e.stopPropagation()}>
+        <Wrapper ref={ref} $bare={bare || !!trigger} $triggerFullWidth={triggerFullWidth} onMouseDown={(e) => e.stopPropagation()}>
             {trigger ? (
                 // 커스텀 트리거: 모양은 밖에서(Button 등), 열림/닫힘은 여기서.
                 // 함수면 (open, 선택 라벨)을 넘겨줘서 화살표·라벨에 반영할 수 있게 한다.
-                <TriggerSlot onClick={toggleOpen}>{typeof trigger === "function" ? trigger(open, selectedLabel) : trigger}</TriggerSlot>
+                <TriggerSlot $fullWidth={triggerFullWidth} onClick={toggleOpen}>
+                    {typeof trigger === "function" ? trigger(open, selectedLabel) : trigger}
+                </TriggerSlot>
             ) : (
-                <Trigger $state={state} $open={open} $locked={locked} $placeholder={isPlaceholder} $bare={bare} onClick={toggleOpen}>
+                <Trigger
+                    $state={state}
+                    $open={open}
+                    $locked={locked}
+                    $placeholder={isPlaceholder}
+                    $bare={bare}
+                    $focused={open || state === "focus"}
+                    $focusTextColorToken={focusTextColorToken}
+                    onClick={toggleOpen}
+                >
                     <Value>{renderValue()}</Value>
                     <Arrow src={ICON.down} $open={open} alt="" aria-hidden />
                 </Trigger>
@@ -210,7 +227,7 @@ function Dropbox({
             {open && !locked && (
                 <Menu $bare={bare} $custom={!!trigger} $dropUp={dropUp}>
                     {multiple && allLabel != null && (
-                        <Option $selected={allChecked} onClick={toggleAll}>
+                        <Option $selected={allChecked} $selectedColorToken={selectedColorToken} onClick={toggleAll}>
                             <Icon $size="medium" src={allChecked ? ICON.chkbx : ICON.unChkbx} alt="" aria-hidden />
                             <OptionText>{allLabel}</OptionText>
                         </Option>
@@ -219,7 +236,7 @@ function Dropbox({
                         const isChecked = multiple && checkedValues.includes(opt.value);
                         const isSelected = multiple ? isChecked : selectedValue === opt.value;
                         return (
-                            <Option key={opt.value} $selected={isSelected} onClick={() => pick(opt)}>
+                            <Option key={opt.value} $selected={isSelected} $selectedColorToken={selectedColorToken} onClick={() => pick(opt)}>
                                 {multiple && <Icon $size="medium" src={isChecked ? ICON.chkbx : ICON.unChkbx} alt="" aria-hidden />}
                                 <OptionText>{opt.label}</OptionText>
                             </Option>

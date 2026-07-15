@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { FormItemsRow, Column } from "@/styles/Common";
 import { FieldControl, FieldGroup } from "../Field/FieldGroup";
 import Button from "../Button/Button";
@@ -70,13 +70,22 @@ function FilterField({ label, required, width, state, helptext, children }) {
     );
 }
 
-const SearchFilter = ({ onSearch, onReset }) => {
+const SearchFilter = ({ onSearch, onReset, actionsTheme }) => {
     const [resetKey, setResetKey] = useState(0);
 
     const resetFilters = (event) => {
         setResetKey((current) => current + 1);
         onReset?.(event);
     };
+
+    const searchActions = (
+        <SearchActionGroup>
+            <SearchActionButton variant="secondary" kind="outlineBlue" width="66px" onClick={onSearch}>
+                검색
+            </SearchActionButton>
+            <SearchRefreshButton onClick={resetFilters} />
+        </SearchActionGroup>
+    );
 
     return (
         <SearchFilterStyle>
@@ -113,12 +122,7 @@ const SearchFilter = ({ onSearch, onReset }) => {
                     </FilterField>
                 </FormItemsRow>
             </SearchFilterGroup>
-            <SearchActionGroup>
-                <SearchActionButton variant="secondary" kind="outlineBlue" width="66px" onClick={onSearch}>
-                    검색
-                </SearchActionButton>
-                <SearchRefreshButton onClick={resetFilters} />
-            </SearchActionGroup>
+            {actionsTheme ? <ThemeProvider theme={actionsTheme}>{searchActions}</ThemeProvider> : searchActions}
         </SearchFilterStyle>
     );
 };

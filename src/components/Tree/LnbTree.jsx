@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { ICON } from "@/components/Icon/IconData";
 import { LnbTreeData } from "./treeData";
 
 const LnbTreeStyle = styled.div`
@@ -74,8 +75,8 @@ const Arrow = styled.span`
         return $depth > 0 ? 0.3 : 1;
     }};
     background-color: ${({ theme, $depth }) => ($depth > 0 ? theme.color.neutral[800] : theme.color.neutral[900])};
-    mask: url("/assets/icons/arrow_down.svg") center / contain no-repeat;
-    -webkit-mask: url("/assets/icons/arrow_down.svg") center / contain no-repeat;
+    mask: url("${ICON.down}") center / contain no-repeat;
+    -webkit-mask: url("${ICON.down}") center / contain no-repeat;
     transform: ${({ $open }) => ($open ? "rotate(0deg)" : "rotate(-90deg)")};
     transform-origin: center;
     transition:

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { IconButton } from "@/styles/Common";
+import { ICON } from "@/components/Icon/IconData";
 
 const BookmarkIcon = styled.span`
     width: ${({ theme }) => theme.icon.primary};
     height: ${({ theme }) => theme.icon.primary};
     background-color: ${({ theme, $active }) => ($active ? "#FFD43B" : theme.color.neutral[400])};
-    mask: url("/assets/icons/bookmark.svg") center / contain no-repeat;
-    -webkit-mask: url("/assets/icons/bookmark.svg") center / contain no-repeat;
+    mask: url("${ICON.bookmark}") center / contain no-repeat;
+    -webkit-mask: url("${ICON.bookmark}") center / contain no-repeat;
 `;
 
 function BookmarkButton({ defaultActive = false, active, onChange, label = "즐겨찾기" }) {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
-import { fieldBox, fieldStateStyle } from "../Field/fieldStyles";
+import { fieldBox, fieldStateStyle, stateStyle } from "../Field/fieldStyles";
 import { Icon } from "@/components/Icon/Icon";
 import { ICON } from "@/components/Icon/IconData";
 
@@ -86,6 +86,7 @@ const Box = styled.div`
     padding: 6px 8px 6px 12px;
     cursor: pointer;
 
+    ${({ $open }) => $open && stateStyle.focus}
     ${fieldStateStyle("&:focus-within")}
 `;
 
@@ -360,7 +361,7 @@ function TimeField({ state, popupState = state, placeholder = "HH:MM", defaultVa
 
     return (
         <TimeFieldShell $width={width} $grow={grow}>
-            <Box ref={ref} $state={state} onClick={toggleOpen}>
+            <Box ref={ref} $state={state} $open={open} onClick={toggleOpen}>
                 <TimeText $placeholder={!displayText}>{displayText || placeholder}</TimeText>
                 <Icon name="time" size="medium" />
             </Box>

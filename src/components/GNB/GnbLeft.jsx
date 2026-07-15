@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { RowCenter } from "@/styles/Common";
+import logoIconUrl from "@/assets/images/logo-icon.svg";
 import { gnbLeftData } from "./gnbData";
 
 const LogoIcon = styled.span`
     width: 34px;
     height: 34px;
     flex: 0 0 34px;
-    background: url("/assets/images/logo-icon.svg") center / contain no-repeat;
+    background: url("${logoIconUrl}") center / contain no-repeat;
 `;
 
 const Brand = styled.span`
@@ -19,11 +20,11 @@ const Brand = styled.span`
 `;
 
 const BrandText = styled.span`
-    color: ${({ theme, $brand }) => ($brand ? theme.color.secondary[500] : theme.color.neutral[900])};
+    color: ${({ theme, $brand }) => ($brand ? theme.color.brand.blue : theme.color.neutral[900])};
 `;
 
 const Role = styled.span`
-    color: ${({ theme }) => theme.color.neutral[900]};
+    color: ${({ theme }) => theme.color.brand.blue};
     font-size: ${({ theme }) => theme.font.size.medium};
     font-weight: ${({ theme }) => theme.font.weight.semibold};
     line-height: 20px;

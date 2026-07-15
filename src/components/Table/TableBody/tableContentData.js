@@ -16,9 +16,7 @@ export const tableContentColumns = [
 
 export const emptyTableRows = [];
 
-export const tableContentTotalCount = 100;
-
-export const tableContentRows = Array.from({ length: 10 }, (_, index) => ({
+export const tableContentRows = Array.from({ length: 11 }, (_, index) => ({
     id: index + 1,
     checked: false,
     no: index + 1,
@@ -31,3 +29,5 @@ export const tableContentRows = Array.from({ length: 10 }, (_, index) => ({
     customerNo: "23456789",
     workType: "246",
 }));
+
+export const tableContentTotalCount = tableContentRows.length;

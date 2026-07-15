@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Dropbox from "@/components/Dropbox/Dropbox";
 import { Icon } from "@/components/Icon/Icon";
 
+const resolveColorToken = (theme, colorToken) => colorToken?.split(".").reduce((color, key) => color?.[key], theme.color);
+
 const PaginationBar = styled.div`
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -12,23 +14,28 @@ const PaginationBar = styled.div`
 `;
 
 const PageSize = styled.div`
-    width: 84px;
+    width: fit-content;
+    max-width: 120px;
+    height: 28px;
 `;
 
 const PageSizeTrigger = styled.button`
     width: 100%;
-    height: 28px;
+    height: 100%;
+    min-height: 28px;
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.spacing[4]};
-    padding: 0 ${({ theme }) => theme.spacing[8]};
+    justify-content: flex-start;
+    gap: ${({ theme }) => theme.spacing[8]};
+    padding: 0 ${({ theme }) => theme.spacing[8]} 0 ${({ theme }) => theme.spacing[12]};
     border: 1px solid ${({ theme }) => theme.color.neutral[300]};
     border-radius: ${({ theme }) => theme.border.radius.xsmall};
     background: ${({ theme }) => theme.color.pure.white};
     color: ${({ theme }) => theme.color.neutral[800]};
-    font-size: ${({ theme }) => theme.font.size.xsmall};
-    line-height: 18px;
+    font-family: ${({ theme }) => theme.font.sans};
+    font-size: ${({ theme }) => theme.font.size.primary};
+    font-weight: ${({ theme }) => theme.font.weight.regular};
+    line-height: 20px;
     cursor: pointer;
 
     &:focus-visible {
@@ -55,7 +62,8 @@ const PageButton = styled.button`
     border: 0;
     border-radius: ${({ theme }) => theme.border.radius.xsmall};
     background: transparent;
-    color: ${({ theme, $active }) => ($active ? theme.color.secondary[500] : theme.color.neutral[500])};
+    color: ${({ theme, $active, $activeColorToken }) =>
+        $active ? (resolveColorToken(theme, $activeColorToken) ?? theme.color.secondary[500]) : theme.color.neutral[500]};
     font-size: ${({ theme }) => theme.font.size.primary};
     line-height: 18px;
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
@@ -133,12 +141,14 @@ function Pagination({
     defaultPage = 1,
     pageSize,
     defaultPageSize = 100,
-    pageSizeOptions = [10, 50, 100],
+    pageSizeOptions = [10, 50, 100, 1000],
     totalCount,
     totalPages,
     maxPageButtons = 10,
     showPageSize = true,
     showFirstLast = true,
+    activeColorToken,
+    pageSizeSelectedColorToken,
     ariaLabel = "pagination",
     onPageChange,
     onPageSizeChange,
@@ -181,11 +191,13 @@ function Pagination({
                         value={currentPageSize}
                         options={pageSizeItems}
                         dropUp
+                        triggerFullWidth
+                        selectedColorToken={pageSizeSelectedColorToken}
                         onSelect={changePageSize}
                         trigger={(open, selectedLabel) => (
                             <PageSizeTrigger type="button" aria-expanded={open}>
                                 {selectedLabel || currentPageSizeLabel}
-                                <Icon name="down" size="xsmall" />
+                                <Icon name="down" size="24px" />
                             </PageSizeTrigger>
                         )}
                     />
@@ -200,7 +212,14 @@ function Pagination({
                     const active = pageNumber === currentPage;
 
                     return (
-                        <PageButton key={pageNumber} type="button" $active={active} aria-current={active ? "page" : undefined} onClick={() => changePage(pageNumber)}>
+                        <PageButton
+                            key={pageNumber}
+                            type="button"
+                            $active={active}
+                            $activeColorToken={activeColorToken}
+                            aria-current={active ? "page" : undefined}
+                            onClick={() => changePage(pageNumber)}
+                        >
                             <PageButtonContent>{pageNumber}</PageButtonContent>
                         </PageButton>
                     );

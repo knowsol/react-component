@@ -3,7 +3,7 @@ import { Text } from "@/components/Title/Title";
 import styled from "styled-components";
 import { Column, CenterColumn, Page, Section, SectionTitle } from "@/styles/Common";
 import TypoTable from "@/components/Table/TypoTable";
-import { typoTableHead, typoTableBody } from "@/components/Table/tableData";
+import { typoTableHead, typoTableBody } from "@/components/Table/typoTableData";
 import ColorBox from "@/components/Box/ColorBox/ColorBox";
 import colorBoxData from "@/components/Box/ColorBox/colorBoxData";
 

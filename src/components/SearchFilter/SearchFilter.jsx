@@ -109,12 +109,12 @@ const SearchFilter = ({ onSearch, onReset, actionsTheme }) => {
                 </FormItemsRow>
                 <FormItemsRow $gap={24}>
                     <FilterField label="타이틀" width="360px">
-                        <Datepicker range />
+                        <Datepicker range showHelpText={false} />
                     </FilterField>
 
                     <FilterField label="타이틀" width="292px">
                         <FilterControlGroup>
-                            <Timepicker range width="216px" />
+                            <Timepicker range width="216px" showHelpText={false} />
                             <Button variant="secondary" kind="solid" minWidth="auto" height="36px">
                                 버튼
                             </Button>

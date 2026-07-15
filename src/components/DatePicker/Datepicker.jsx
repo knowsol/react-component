@@ -266,7 +266,7 @@ function getScrollParents(node) {
     return [...parents];
 }
 
-function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range = false, timepicker = false, view, visible = false, width, className }) {
+function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range = false, timepicker = false, view, visible = false, width, className, showHelpText = true }) {
     const disabled = state === "disabled";
     const readonly = state === "readonly";
     const locked = disabled || readonly;
@@ -616,6 +616,7 @@ function Datepicker({ state, placeholder = "날짜 선택", defaultValue, range 
                         </InlinePickerWrap>
                     )}
                     {rangeValidationError &&
+                        showHelpText &&
                         (visible ? (
                             <RangeHelpText>{RANGE_ERROR_MESSAGE}</RangeHelpText>
                         ) : (

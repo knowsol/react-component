@@ -370,7 +370,7 @@ function TimeField({ state, popupState = state, placeholder = "HH:MM", defaultVa
     );
 }
 
-function TimeRangePicker({ state, placeholder, defaultValue, width, className, visible }) {
+function TimeRangePicker({ state, placeholder, defaultValue, width, className, visible, showHelpText }) {
     const initialValue = useMemo(() => splitRangeValue(defaultValue), [defaultValue]);
     const rangePlaceholder = useMemo(() => splitRangePlaceholder(placeholder), [placeholder]);
     const [startValue, setStartValue] = useState(initialValue[0]);
@@ -492,12 +492,13 @@ function TimeRangePicker({ state, placeholder, defaultValue, width, className, v
                 <RangeSeparator>~</RangeSeparator>
                 <TimeField state={state} value={endValue} placeholder={rangePlaceholder[1]} grow onChange={handleEndChange} onOpenChange={handleEndOpenChange} onPopupPositionChange={handleEndPopupPositionChange} />
             </RangeWrap>
-            {rangeError && visible && (
+            {rangeError && showHelpText && visible && (
                 <RangeHelpText $overlay={!visible} $popupOpen={popupOpen}>
                     {RANGE_ERROR_MESSAGE}
                 </RangeHelpText>
             )}
             {rangeError &&
+                showHelpText &&
                 !visible &&
                 createPortal(
                     <FloatingHelpText $top={helpPosition.top} $left={helpPosition.left} $width={helpPosition.width || 160}>
@@ -509,9 +510,9 @@ function TimeRangePicker({ state, placeholder, defaultValue, width, className, v
     );
 }
 
-function Timepicker({ state, placeholder = "00:00", defaultValue, range = false, width, className, min, onChange, visible = false }) {
+function Timepicker({ state, placeholder = "00:00", defaultValue, range = false, width, className, min, onChange, visible = false, showHelpText = true }) {
     if (range) {
-        return <TimeRangePicker key={`${defaultValue || ""}-${placeholder || ""}`} state={state} placeholder={placeholder} defaultValue={defaultValue} width={width} className={className} visible={visible} />;
+        return <TimeRangePicker key={`${defaultValue || ""}-${placeholder || ""}`} state={state} placeholder={placeholder} defaultValue={defaultValue} width={width} className={className} visible={visible} showHelpText={showHelpText} />;
     }
 
     return <TimeField state={state} defaultValue={defaultValue} placeholder={placeholder} width={width} min={min} onChange={onChange} visible={visible} />;

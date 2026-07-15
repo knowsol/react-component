@@ -66,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
 
   *, *::before, *::after {
     box-sizing: border-box;
+    font-family: ${({ theme }) => theme.font.sans};
 	margin: 0;
 	padding:0;
   }

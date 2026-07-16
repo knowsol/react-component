@@ -31,3 +31,20 @@ export const tableContentRows = Array.from({ length: 11 }, (_, index) => ({
 }));
 
 export const tableContentTotalCount = tableContentRows.length;
+
+export const accordionTableColumns = [
+    { key: "toggle", label: "", width: "60px", type: "toggle" },
+    { key: "category", label: "title" },
+    { key: "subject", label: "title" },
+    { key: "writer", label: "title" },
+];
+
+export const accordionTableDetailItems = ["첫 번째 아코디언 상세 내용입니다.", "두 번째 아코디언 상세 내용입니다.", "세 번째 아코디언 상세 내용입니다."];
+
+export const accordionTableRows = Array.from({ length: 4 }, (_, index) => ({
+    id: index + 1,
+    category: "가나다라마바사아자차카타파",
+    subject: "가나다라마바사아자차카타파",
+    writer: "가나다라마바사아자차카타파",
+    details: accordionTableDetailItems,
+}));

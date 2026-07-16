@@ -77,6 +77,7 @@ export const SectionTitle = styled.h2`
 export const Table = styled.table`
     width: 100%;
     border-collapse: collapse;
+    border-top: 1px solid ${({ theme }) => theme.color.neutral[900]};
     margin: ${({ theme }) => theme.spacing[0]};
 `;
 

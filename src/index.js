@@ -32,6 +32,7 @@ export { default as Switch } from "@/components/Switch/Switch";
 export { default as DetailTabs } from "@/components/Tab/DetailTabs";
 export { default as LineTabs } from "@/components/Tab/LineTabs";
 export { default as PaginatedTableContent } from "@/components/Table/PaginatedTableContent";
+export { default as AccordionTable } from "@/components/Table/TableBody/AccordionTable";
 export { default as EmptyTable } from "@/components/Table/TableBody/EmptyTable";
 export { default as TableContent } from "@/components/Table/TableBody/TableContent";
 export { default as BookmarkButton } from "@/components/Table/TableHeader/BookmarkButton";

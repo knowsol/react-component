@@ -9,13 +9,13 @@ const TableScroll = styled.div`
     max-height: ${({ $maxHeight }) => $maxHeight ?? "none"};
     overflow-x: auto;
     overflow-y: auto;
-    border-top: ${({ $topBorder, theme }) => ($topBorder ? `1px solid ${theme.color.neutral[800]}` : "0")};
 `;
 
 const DataTable = styled(Table)`
     table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
+    border-top: 0;
     width: max-content;
     min-width: 100%;
 `;
@@ -40,7 +40,10 @@ const HeaderCell = styled(Th)`
     letter-spacing: 0;
     white-space: nowrap;
     vertical-align: middle;
-    border-bottom: 1px solid ${({ theme }) => theme.color.neutral[300]};
+    border-bottom: 0;
+    box-shadow:
+        inset 0 1px ${({ theme }) => theme.color.neutral[900]},
+        inset 0 -1px ${({ theme }) => theme.color.neutral[300]};
     border-right: ${({ $columnLine, $fixed, $lastFixed, theme }) => ($columnLine && (!$fixed || $lastFixed) ? `1px solid ${theme.color.neutral[300]}` : "0")};
     ${({ $fixedDivider, theme }) =>
         $fixedDivider &&

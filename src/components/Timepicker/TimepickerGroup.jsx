@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Heading } from "../Title/Title";
 import { FieldGroup, FieldControl } from "../Field/FieldGroup";
 import Timepicker from "./Timepicker";
-import { TitleTimepickerGroups } from "./timepickerData";
+import { TimepickerGroups, TitleTimepickerGroups } from "./timepickerData";
 import { Column } from "@/styles/Common";
 
 const Wrap = styled.div`
@@ -40,9 +40,9 @@ const DateHeader = styled.p`
     text-align: center;
 `;
 
-function TimepickerGroup({ title, rows }) {
-    return (
-        <Wrap>
+function TimepickerGroup() {
+    return TimepickerGroups.map(({ title, rows }) => (
+        <Wrap key={title}>
             <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                 {title}
             </Heading>
@@ -71,7 +71,7 @@ function TimepickerGroup({ title, rows }) {
                 })}
             </DateGrid>
         </Wrap>
-    );
+    ));
 }
 
 export default TimepickerGroup;

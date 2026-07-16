@@ -2,10 +2,11 @@ import { Column } from "@/styles/Common";
 import { Heading } from "../Title/Title";
 import { FieldGroup, FieldControl } from "../Field/FieldGroup";
 import Search from "./Search";
+import { SearchGroups } from "./searchData";
 
-function SearchGroup({ title, rows }) {
-    return (
-        <Column $mt={24}>
+function SearchGroup() {
+    return SearchGroups.map(({ title, rows }) => (
+        <Column key={title} $mt={24}>
             <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                 {title}
             </Heading>
@@ -17,6 +18,6 @@ function SearchGroup({ title, rows }) {
                 </FieldGroup>
             ))}
         </Column>
-    );
+    ));
 }
 export default SearchGroup;

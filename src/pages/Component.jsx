@@ -1,23 +1,16 @@
 import { Page, Column, Section } from "@/styles/Common";
 import { Heading } from "@/components/Title/Title";
 import InputGroup from "@/components/Input/InputGroup";
-import { inputGroups } from "@/components/Input/inputData";
 import InputButton from "@/components/Input/InputButton";
 import DropBoxGroup from "@/components/Dropbox/DropBoxGroup";
-import { dropData } from "@/components/Dropbox/dropData";
 import { FieldControl, FieldGroup } from "@/components/Field/FieldGroup";
 import SearchGroup from "@/components/Searchbox/SearchGroup";
-import { SearchGroups } from "@/components/Searchbox/searchData";
 import EmailGroup from "@/components/Email/EmailGroup";
-import { EmailGroups } from "@/components/Email/emailData";
 import styled from "styled-components";
-import Textarea from "@/components/Textarea/Textarea";
-import { TextareaData } from "@/components/Textarea/textareaData";
+import TextareaGroup from "@/components/Textarea/TextareaGroup";
 import FileUpload from "@/components/File/FileUpload";
 import DatepickerGroup from "@/components/DatePicker/DatepickerGroup";
-import { DatepickerGroups } from "@/components/DatePicker/datepickerData";
 import TimepickerGroup from "@/components/Timepicker/TimepickerGroup";
-import { TimepickerGroups } from "@/components/Timepicker/timepickerData";
 import DateTimePicker from "@/components/DateTimePicker/DateTimePicker";
 import CheckGroup from "@/components/Checkbox/CheckGroup";
 import SwitchGroup from "@/components/Switch/SwitchGroup";
@@ -83,29 +76,15 @@ function Component() {
                     Input Field
                 </Heading>
                 <InputGrid>
-                    {inputGroups.map((g) => (
-                        <InputGroup key={g.title} {...g} />
-                    ))}
-                    {dropData.map((g) => (
-                        <DropBoxGroup key={g.title} {...g} />
-                    ))}
-                    {SearchGroups.map((g) => (
-                        <SearchGroup key={g.title} {...g} />
-                    ))}
-                    {EmailGroups.map((g) => (
-                        <EmailGroup key={g.title} {...g} />
-                    ))}
-                    {TextareaData.map((t) => (
-                        <Textarea key={t.title} {...t} />
-                    ))}
+                    <InputGroup />
+                    <DropBoxGroup />
+                    <SearchGroup />
+                    <EmailGroup />
+                    <TextareaGroup />
                     <FileUpload />
                     <InputButtonGuide />
-                    {DatepickerGroups.map((g) => (
-                        <DatepickerGroup key={g.title} {...g} />
-                    ))}
-                    {TimepickerGroups.map((g) => (
-                        <TimepickerGroup key={g.title} {...g} />
-                    ))}
+                    <DatepickerGroup />
+                    <TimepickerGroup />
                     <DateTimeSpan>
                         <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                             DateTimePicker

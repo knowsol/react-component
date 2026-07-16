@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Heading } from "../Title/Title";
 import { FieldGroup, FieldControl } from "../Field/FieldGroup";
 import Dropbox from "./Dropbox";
+import { dropData } from "./dropData";
 
 const OPTION_HEIGHT = 44;
 
@@ -15,9 +16,9 @@ const Boxes = styled.div`
     min-width: 0;
 `;
 
-function DropBoxGroup({ title, rows }) {
-    return (
-        <Column $mt={24}>
+function DropBoxGroup() {
+    return dropData.map(({ title, rows }) => (
+        <Column key={title} $mt={24}>
             <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                 {title}
             </Heading>
@@ -38,7 +39,7 @@ function DropBoxGroup({ title, rows }) {
                 );
             })}
         </Column>
-    );
+    ));
 }
 
 export default DropBoxGroup;

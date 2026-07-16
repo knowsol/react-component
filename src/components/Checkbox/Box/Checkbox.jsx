@@ -1,9 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { Icon } from "@/components/Icon/Icon";
-import { RowCenter } from "@/styles/Common";
 
-const CheckTitle = styled.p`
+const CheckTitle = styled.span`
     font-size: ${({ theme }) => theme.font.size.primary};
     font-weight: ${({ theme }) => theme.font.weight.regular};
     line-height: 160%;
@@ -15,20 +14,17 @@ const BoxIcon = styled(Icon)`
     flex-shrink: 0;
 `;
 
-const CheckRow = styled(RowCenter)`
-    cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
-    user-select: none;
-`;
-
 const CheckButton = styled.button`
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: ${({ theme }) => theme.spacing[4]};
     padding: 0;
     border: 0;
     background: transparent;
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+    user-select: none;
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.color.secondary[300]};
@@ -64,7 +60,7 @@ function getIconName(disabled, checked, indeterminate) {
     return checked ? "chkbx" : "unChkbx";
 }
 
-export function CheckboxControl({ checked = false, indeterminate = false, disabled = false, size = "medium", "aria-label": ariaLabel, onChange, ...buttonProps }) {
+export function CheckboxControl({ checked = false, indeterminate = false, disabled = false, size = "medium", "aria-label": ariaLabel, onChange, children, ...buttonProps }) {
     const toggle = (event) => {
         event.stopPropagation();
         if (!disabled) onChange?.(!checked, event);
@@ -73,6 +69,7 @@ export function CheckboxControl({ checked = false, indeterminate = false, disabl
     return (
         <CheckButton type="button" role="checkbox" aria-checked={indeterminate ? "mixed" : checked} aria-label={ariaLabel} disabled={disabled} onClick={toggle} {...buttonProps}>
             {indeterminate && !disabled ? <MixedBox $size={size} /> : <BoxIcon name={getIconName(disabled, checked, indeterminate)} size={size} $disabled={disabled} />}
+            {children}
         </CheckButton>
     );
 }
@@ -89,10 +86,9 @@ function Checkbox({ label, checked: checkedProp, defaultChecked = false, indeter
     };
 
     return (
-        <CheckRow $gap={4} $disabled={disabled}>
-            <CheckboxControl checked={checked} indeterminate={indeterminate} disabled={disabled} aria-label={label} onChange={change} />
+        <CheckboxControl checked={checked} indeterminate={indeterminate} disabled={disabled} aria-label={label} onChange={change}>
             <CheckTitle>{label}</CheckTitle>
-        </CheckRow>
+        </CheckboxControl>
     );
 }
 

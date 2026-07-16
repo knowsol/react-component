@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Heading } from "../Title/Title";
 import { FieldGroup, FieldControl } from "../Field/FieldGroup";
 import Datepicker from "./Datepicker";
-import { TitleDatepickerGroups } from "./datepickerData";
+import { DatepickerGroups, TitleDatepickerGroups } from "./datepickerData";
 import { Row, Column } from "@/styles/Common";
 
 const Wrap = styled.div`
@@ -72,9 +72,9 @@ const LEGEND = [
     { n: 4, bg: (t) => t.color.secondary[500], fg: (t) => t.color.pure.white, label: "Selected" },
 ];
 
-function DatepickerGroup({ title, rows }) {
-    return (
-        <Wrap>
+function DatepickerGroup() {
+    return DatepickerGroups.map(({ title, rows }) => (
+        <Wrap key={title}>
             <Heading as="p" $size="xsmall" $line $padding="38px 0 8px">
                 {title}
             </Heading>
@@ -110,7 +110,7 @@ function DatepickerGroup({ title, rows }) {
                 </LegendColumn>
             </DateGrid>
         </Wrap>
-    );
+    ));
 }
 
 export default DatepickerGroup;

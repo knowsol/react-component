@@ -44,21 +44,7 @@ const HeaderCell = styled(Th)`
     box-shadow:
         inset 0 1px ${({ theme }) => theme.color.neutral[900]},
         inset 0 -1px ${({ theme }) => theme.color.neutral[300]};
-    border-right: ${({ $columnLine, $fixed, $lastFixed, theme }) => ($columnLine && (!$fixed || $lastFixed) ? `1px solid ${theme.color.neutral[300]}` : "0")};
-    ${({ $fixedDivider, theme }) =>
-        $fixedDivider &&
-        `
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 1px;
-                height: 100%;
-                background: ${theme.color.neutral[300]};
-                pointer-events: none;
-            }
-        `}
+    border-right: 0;
 `;
 
 const BodyRow = styled.tr`
@@ -284,7 +270,7 @@ function TableBody({
                             const fixed = fixedColumnMap[column.key];
 
                             return (
-                                <HeaderCell key={column.key} $align={column.headerAlign ?? column.align} $fixed={Boolean(fixed)} $left={fixed?.left} $lastFixed={fixed?.last} $fixedDivider={fixed?.divider} $columnLine={columnLine}>
+                                <HeaderCell key={column.key} $align={column.headerAlign ?? column.align} $fixed={Boolean(fixed)} $left={fixed?.left}>
                                     <CellInner $align={column.headerAlign ?? column.align}>{renderHeaderCell(column)}</CellInner>
                                 </HeaderCell>
                             );

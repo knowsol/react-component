@@ -12,7 +12,7 @@ const LineTab = styled.button`
     letter-spacing: -0.02em;
     color: ${({ theme, $active }) => ($active ? theme.color.neutral[900] : theme.color.neutral[500])};
     /* 비활성도 투명 밑줄을 깔아 활성/비활성 높이를 맞춘다. */
-    border-bottom: 1px solid ${({ theme, $active }) => ($active ? theme.color.neutral[900] : "transparent")};
+    border-bottom: 2px solid ${({ theme, $active }) => ($active ? theme.color.neutral[900] : "transparent")};
     cursor: pointer;
 `;
 

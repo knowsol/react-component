@@ -118,16 +118,17 @@ function Admin() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [pendingMenu, setPendingMenu] = useState(null);
+    const [homeSelectedTreeId, setHomeSelectedTreeId] = useState(null);
     const isAdminHome = pathname === "/admin" || pathname === "/admin/";
     const activeMenu = isAdminHome ? null : getActiveMenu(pathname);
     const activeMenuId = pendingMenu?.fromPath === pathname ? pendingMenu.id : activeMenu?.id ?? null;
-    const selectedTreeId = getSelectedTreeId(pathname, activeMenu);
+    const selectedTreeId = isAdminHome ? homeSelectedTreeId : getSelectedTreeId(pathname, activeMenu);
     const selectedTreePath = selectedTreeId ? findTreePath(LnbTreeData, selectedTreeId) : [];
     const selectedTreeNode = selectedTreePath.at(-1);
-    const breadcrumbItems = isAdminHome
-        ? tableHeaderData.breadcrumbs.map((label, index) => ({ id: `admin-home-${index}`, label }))
-        : selectedTreePath.length
-          ? selectedTreePath
+    const breadcrumbItems = selectedTreePath.length
+        ? selectedTreePath
+        : isAdminHome
+          ? tableHeaderData.breadcrumbs.map((label, index) => ({ id: `admin-home-${index}`, label }))
           : activeMenu
             ? [{ id: activeMenu.id, label: activeMenu.label }]
             : [];
@@ -141,12 +142,17 @@ function Admin() {
     };
 
     const handleTreeSelect = (node) => {
+        if (isAdminHome) {
+            setHomeSelectedTreeId(node.id);
+            return;
+        }
+
         if (!activeMenu) return;
 
         navigate(`${activeMenu.path}/${node.id}`);
     };
 
-    if (selectedTreeId && !selectedTreeNode) {
+    if (!isAdminHome && selectedTreeId && !selectedTreeNode) {
         return <Navigate to={activeMenu.path} replace />;
     }
 

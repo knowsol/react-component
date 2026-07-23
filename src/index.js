@@ -42,4 +42,5 @@ export { default as TableTitle } from "@/components/Table/TableHeader/TableTitle
 export { default as Textarea } from "@/components/Textarea/Textarea";
 export { default as Timepicker } from "@/components/Timepicker/Timepicker";
 export { Heading, Text, default as Title } from "@/components/Title/Title";
+export { default as Tooltip } from "@/components/Tooltip/Tooltip";
 export { default as LnbTree } from "@/components/Tree/LnbTree";

@@ -105,8 +105,27 @@ function getChildren(node) {
     return node.children ?? node.sub ?? [];
 }
 
-function getInitialOpenIds(nodes) {
-    return new Set(nodes.filter((node) => node.open).map((node) => node.id));
+function collectOpenIds(nodes) {
+    return nodes.flatMap((node) => {
+        const children = getChildren(node);
+        return [...(node.open ? [node.id] : []), ...(children.length ? collectOpenIds(children) : [])];
+    });
+}
+
+function findAncestorIds(nodes, selectedId, ancestors = []) {
+    for (const node of nodes) {
+        if (node.id === selectedId) return ancestors;
+
+        const children = getChildren(node);
+        const childAncestors = children.length ? findAncestorIds(children, selectedId, [...ancestors, node.id]) : null;
+        if (childAncestors) return childAncestors;
+    }
+
+    return null;
+}
+
+function getInitialOpenIds(nodes, selectedId) {
+    return new Set([...collectOpenIds(nodes), ...(findAncestorIds(nodes, selectedId) ?? [])]);
 }
 
 function findInitialSelectedId(nodes) {
@@ -149,7 +168,15 @@ function LnbTreeNode({ node, depth, openIds, selectedId, onSelect }) {
     return (
         <LnbNode>
             <LnbMenuWrap>
-                <MenuItem type="button" $depth={depth} $active={isSelected} aria-expanded={hasChildren ? isOpen : undefined} onClick={() => onSelect(node.id, hasChildren)}>
+                <MenuItem
+                    type="button"
+                    $depth={depth}
+                    $active={isSelected}
+                    data-node-id={node.id}
+                    aria-current={isSelected ? "page" : undefined}
+                    aria-expanded={hasChildren ? isOpen : undefined}
+                    onClick={() => onSelect(node, hasChildren)}
+                >
                     <Marker $depth={depth} />
                     <MenuLabel>{node.label}</MenuLabel>
                     <Arrow $visible $open={isOpen} $depth={depth} />
@@ -168,16 +195,18 @@ function LnbTreeNode({ node, depth, openIds, selectedId, onSelect }) {
     );
 }
 
-function LnbTree() {
-    const [openIds, setOpenIds] = useState(() => getInitialOpenIds(LnbTreeData));
-    const [selectedId, setSelectedId] = useState(() => findInitialSelectedId(LnbTreeData));
+function LnbTree({ nodes = LnbTreeData, selectedId, defaultSelectedId, onSelect, className }) {
+    const initialSelectedId = defaultSelectedId ?? findInitialSelectedId(nodes);
+    const [openIds, setOpenIds] = useState(() => getInitialOpenIds(nodes, selectedId ?? initialSelectedId));
+    const [internalSelectedId, setInternalSelectedId] = useState(initialSelectedId);
+    const currentSelectedId = selectedId !== undefined ? selectedId : internalSelectedId;
 
     const toggleOpen = (id, hasChildren) => {
         if (!hasChildren) return;
 
         setOpenIds((current) => {
             const next = new Set(current);
-            const targetNode = findNodeById(LnbTreeData, id);
+            const targetNode = findNodeById(nodes, id);
 
             if (next.has(id)) {
                 next.delete(id);
@@ -190,15 +219,19 @@ function LnbTree() {
         });
     };
 
-    const selectMenu = (id, hasChildren) => {
-        setSelectedId(id);
-        toggleOpen(id, hasChildren);
+    const selectMenu = (node, hasChildren) => {
+        if (selectedId === undefined) {
+            setInternalSelectedId(node.id);
+        }
+
+        toggleOpen(node.id, hasChildren);
+        onSelect?.(node);
     };
 
     return (
-        <LnbTreeStyle>
-            {LnbTreeData.map((node) => (
-                <LnbTreeNode key={node.id} node={node} depth={0} openIds={openIds} selectedId={selectedId} onSelect={selectMenu} />
+        <LnbTreeStyle className={className}>
+            {nodes.map((node) => (
+                <LnbTreeNode key={node.id} node={node} depth={0} openIds={openIds} selectedId={currentSelectedId} onSelect={selectMenu} />
             ))}
         </LnbTreeStyle>
     );

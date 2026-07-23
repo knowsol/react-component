@@ -73,7 +73,7 @@ function decreaseTimerValue(value) {
 
 const INITIAL_LOGIN_TIME = parseTimerValue(gnbRightData.time);
 
-function GnbRight() {
+function GnbRight({ onLogout, logoutPath = "/" }) {
     const navigate = useNavigate();
     const [loginTime, setLoginTime] = useState(INITIAL_LOGIN_TIME);
 
@@ -90,7 +90,12 @@ function GnbRight() {
     };
 
     const handleLogout = () => {
-        navigate("/main");
+        if (onLogout) {
+            onLogout();
+            return;
+        }
+
+        navigate(logoutPath);
     };
 
     return (

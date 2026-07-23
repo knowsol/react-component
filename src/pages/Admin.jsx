@@ -1,18 +1,15 @@
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import styled from "styled-components";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Gnb from "@/components/GNB/GNB";
-import { IconSidebar } from "@/components/Sidebar";
-import LayerPopup from "@/components/LayerPopup/LayerPopup";
-import { layerPopData } from "@/components/LayerPopup/layerPopData";
-import { sidebarLayerPopupProps } from "@/components/LayerPopup/sidebarLayerPopupData";
-import SidebarLayerPopupContent from "@/components/LayerPopup/SidebarLayerPopupContent";
-import SearchFilter from "@/components/SearchFilter/SearchFilter";
-import PaginatedTableContent from "@/components/Table/PaginatedTableContent";
-import { tableContentColumns, tableContentRows } from "@/components/Table/TableBody/tableContentData";
-import { tableHeaderData } from "@/components/Table/TableHeader/tableHeaderData";
-import BookmarkButton from "@/components/Table/TableHeader/BookmarkButton";
-import TableHeaderSection from "@/components/Table/TableHeader/TableHeaderSection";
 import { Icon } from "@/components/Icon/Icon";
+import { IconSidebar } from "@/components/Sidebar";
+import { iconSidebarMenus } from "@/components/Sidebar/iconSidebarData";
+import BookmarkButton from "@/components/Table/TableHeader/BookmarkButton";
+import { tableHeaderData } from "@/components/Table/TableHeader/tableHeaderData";
+import LnbTree from "@/components/Tree/LnbTree";
+import { LnbTreeData } from "@/components/Tree/treeData";
+import { Page } from "@/styles/Common";
 
 const AdminRoot = styled.div`
     width: 100%;
@@ -79,82 +76,110 @@ const Breadcrumb = styled.span`
     }
 `;
 
-const Stack = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.spacing[8]};
+const AdminPageBody = styled.div`
+    width: 100%;
+
+    & > ${Page} {
+        padding: ${({ theme }) => theme.spacing[32]} 0 0;
+    }
 `;
 
-const ScrollBlock = styled.div`
-    min-width: 0;
-    overflow-x: auto;
-`;
+function getChildren(node) {
+    return node.children ?? node.sub ?? [];
+}
 
-const adminTableHeader = tableHeaderData.rows[0];
-const resultTableHeaderData = tableHeaderData.rows[2];
-const confirmLayerPopup = layerPopData.find((popup) => popup.id === "confirm");
+function findTreePath(nodes, selectedId, ancestors = []) {
+    for (const node of nodes) {
+        const currentPath = [...ancestors, node];
+        if (node.id === selectedId) return currentPath;
+
+        const children = getChildren(node);
+        const childPath = children.length ? findTreePath(children, selectedId, currentPath) : [];
+        if (childPath.length) return childPath;
+    }
+
+    return [];
+}
+
+function getActiveMenu(pathname) {
+    return iconSidebarMenus.find((menu) => pathname === menu.path || pathname.startsWith(`${menu.path}/`)) ?? iconSidebarMenus[0];
+}
+
+function getSelectedTreeId(pathname, activeMenu) {
+    if (!activeMenu || pathname === activeMenu.path) return null;
+
+    return pathname
+        .slice(activeMenu.path.length)
+        .split("/")
+        .filter(Boolean)[0] ?? null;
+}
 
 function Admin() {
-    const [sidebarPopupOpen, setSidebarPopupOpen] = useState(false);
-    const [confirmPopupOpen, setConfirmPopupOpen] = useState(false);
-    const closeSidebarPopup = () => setSidebarPopupOpen(false);
-    const closeConfirmPopup = () => setConfirmPopupOpen(false);
-    const resultTableHeader = {
-        ...resultTableHeaderData,
-        title: "검색결과",
-        actions: resultTableHeaderData.actions.map((action, index) =>
-            index === 0
-                ? {
-                      ...action,
-                      ariaLabel: "검색결과 알림 열기",
-                      onClick: () => setConfirmPopupOpen(true),
-                  }
-                : action,
-        ),
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const [pendingMenu, setPendingMenu] = useState(null);
+    const isAdminHome = pathname === "/admin" || pathname === "/admin/";
+    const activeMenu = isAdminHome ? null : getActiveMenu(pathname);
+    const activeMenuId = pendingMenu?.fromPath === pathname ? pendingMenu.id : activeMenu?.id ?? null;
+    const selectedTreeId = getSelectedTreeId(pathname, activeMenu);
+    const selectedTreePath = selectedTreeId ? findTreePath(LnbTreeData, selectedTreeId) : [];
+    const selectedTreeNode = selectedTreePath.at(-1);
+    const breadcrumbItems = isAdminHome
+        ? tableHeaderData.breadcrumbs.map((label, index) => ({ id: `admin-home-${index}`, label }))
+        : selectedTreePath.length
+          ? selectedTreePath
+          : activeMenu
+            ? [{ id: activeMenu.id, label: activeMenu.label }]
+            : [];
+    const pageTitle = isAdminHome ? tableHeaderData.pageTitle : selectedTreeNode?.label ?? activeMenu?.label;
+
+    const handleMenuChange = (menu) => {
+        if (!menu.path) return;
+
+        setPendingMenu({ id: menu.id, fromPath: pathname });
+        startTransition(() => navigate(menu.path));
     };
 
+    const handleTreeSelect = (node) => {
+        if (!activeMenu) return;
+
+        navigate(`${activeMenu.path}/${node.id}`);
+    };
+
+    if (selectedTreeId && !selectedTreeNode) {
+        return <Navigate to={activeMenu.path} replace />;
+    }
+
     return (
-        <>
-            <AdminRoot>
-                <Gnb />
-                <AdminBody>
-                    <IconSidebar />
-                    <ContentArea>
-                        <ContentHeader>
-                            <PageTitle>
-                                {tableHeaderData.pageTitle}
-                                <BookmarkButton defaultActive={tableHeaderData.bookmarked} />
-                            </PageTitle>
-                            <Breadcrumbs aria-label="breadcrumb">
+        <AdminRoot>
+            <Gnb logoutPath="/" />
+            <AdminBody>
+                <IconSidebar ariaLabel="관리자 메뉴" menus={iconSidebarMenus} activeMenuId={activeMenuId} onMenuChange={handleMenuChange}>
+                    <LnbTree nodes={LnbTreeData} selectedId={selectedTreeId} onSelect={handleTreeSelect} />
+                </IconSidebar>
+                <ContentArea>
+                    <ContentHeader>
+                        <PageTitle>
+                            {pageTitle}
+                            <BookmarkButton key={isAdminHome ? "admin-home" : activeMenu?.id} defaultActive={isAdminHome ? tableHeaderData.bookmarked : false} />
+                        </PageTitle>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Breadcrumb aria-label="홈">
                                 <Icon name="home" size="xsmall" />
-                                {tableHeaderData.breadcrumbs.map((breadcrumb, index) => (
-                                    <Breadcrumb key={`${breadcrumb}-${index}`}>{breadcrumb}</Breadcrumb>
-                                ))}
-                            </Breadcrumbs>
-                        </ContentHeader>
-                        <Stack>
-                            <TableHeaderSection {...adminTableHeader} compact />
-                            <ScrollBlock>
-                                <SearchFilter />
-                            </ScrollBlock>
-                            <TableHeaderSection {...resultTableHeader} compact />
-                            <PaginatedTableContent
-                                columns={tableContentColumns}
-                                rows={tableContentRows}
-                                topBorder
-                                selectOnRowClick
-                                isRowClickable={(_, rowIndex) => rowIndex === 0}
-                                onRowClick={() => setSidebarPopupOpen(true)}
-                            />
-                        </Stack>
-                    </ContentArea>
-                </AdminBody>
-            </AdminRoot>
-            <LayerPopup open={sidebarPopupOpen} {...sidebarLayerPopupProps} onClose={closeSidebarPopup}>
-                <SidebarLayerPopupContent onClose={closeSidebarPopup} />
-            </LayerPopup>
-            {confirmLayerPopup && <LayerPopup open={confirmPopupOpen} closeOnOverlay {...confirmLayerPopup} onClose={closeConfirmPopup} />}
-        </>
+                            </Breadcrumb>
+                            {breadcrumbItems.map((breadcrumb, index) => (
+                                <Breadcrumb key={breadcrumb.id} aria-current={index === breadcrumbItems.length - 1 ? "page" : undefined}>
+                                    {breadcrumb.label}
+                                </Breadcrumb>
+                            ))}
+                        </Breadcrumbs>
+                    </ContentHeader>
+                    <AdminPageBody>
+                        <Outlet />
+                    </AdminPageBody>
+                </ContentArea>
+            </AdminBody>
+        </AdminRoot>
     );
 }
 

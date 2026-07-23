@@ -1,7 +1,22 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { RowCenter } from "@/styles/Common";
 import logoIconUrl from "@/assets/images/logo-icon.svg";
 import { gnbLeftData } from "./gnbData";
+
+const BrandLink = styled(Link)`
+    display: inline-flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing[12]};
+    border-radius: ${({ theme }) => theme.border.radius.xsmall};
+    color: inherit;
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid ${({ theme }) => theme.color.secondary[300]};
+        outline-offset: 2px;
+    }
+`;
 
 const LogoIcon = styled.span`
     width: 34px;
@@ -30,9 +45,9 @@ const Role = styled.span`
     line-height: 20px;
 `;
 
-function GnbLeft() {
+function GnbLeft({ homePath = "/admin" }) {
     return (
-        <RowCenter $gap={12}>
+        <BrandLink to={homePath} aria-label="관리자 페이지로 이동">
             {gnbLeftData.map((item) => (
                 <RowCenter key={item.id} $gap={12}>
                     {item.logo && <LogoIcon aria-hidden />}
@@ -45,7 +60,7 @@ function GnbLeft() {
                     {item.sub && <Role>{item.sub}</Role>}
                 </RowCenter>
             ))}
-        </RowCenter>
+        </BrandLink>
     );
 }
 

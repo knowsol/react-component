@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { Icon } from "@/components/Icon/Icon";
+import Tooltip from "@/components/Tooltip/Tooltip";
 import LnbTree from "@/components/Tree/LnbTree";
 import { iconSidebarMenus } from "./iconSidebarData";
 
@@ -9,7 +10,9 @@ const SidebarShell = styled.aside`
     display: flex;
     align-self: stretch;
     min-height: 0;
+    padding-right: ${({ $expanded }) => ($expanded ? "0" : "30px")};
     background: ${({ theme }) => theme.color.secondary.c50};
+    transition: padding-right 180ms ease;
 `;
 
 const IconRail = styled.nav`
@@ -124,7 +127,7 @@ export function IconSidebar({
     const firstMenuId = menus[0]?.id ?? "";
     const [internalActiveMenuId, setInternalActiveMenuId] = useState(defaultActiveMenuId ?? firstMenuId);
     const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
-    const currentActiveMenuId = activeMenuId ?? internalActiveMenuId;
+    const currentActiveMenuId = activeMenuId !== undefined ? activeMenuId : internalActiveMenuId;
     const currentExpanded = expanded ?? internalExpanded;
 
     const handleIconClick = (menu) => {
@@ -144,7 +147,7 @@ export function IconSidebar({
     };
 
     return (
-        <SidebarShell className={className}>
+        <SidebarShell className={className} $expanded={currentExpanded} data-expanded={currentExpanded}>
             <IconRail aria-label={ariaLabel}>
                 <RailCorner width="56" height="16" viewBox="0 0 56 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                     <rect width="56" height="16" fill="currentColor" />
@@ -157,9 +160,18 @@ export function IconSidebar({
 
                             return (
                                 <IconItem key={menu.id}>
-                                    <IconMenuButton type="button" $active={active} aria-label={menu.label} aria-expanded={active} data-path={menu.path} onClick={() => handleIconClick(menu)}>
-                                        <Icon name={menu.iconName} size="primary" />
-                                    </IconMenuButton>
+                                    <Tooltip content={menu.label} placement="right">
+                                        <IconMenuButton
+                                            type="button"
+                                            $active={active}
+                                            aria-label={menu.label}
+                                            aria-expanded={active}
+                                            data-path={menu.path}
+                                            onClick={() => handleIconClick(menu)}
+                                        >
+                                            <Icon name={menu.iconName} size="primary" />
+                                        </IconMenuButton>
+                                    </Tooltip>
                                 </IconItem>
                             );
                         })}

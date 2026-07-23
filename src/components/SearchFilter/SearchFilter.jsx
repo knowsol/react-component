@@ -17,7 +17,7 @@ const SearchFilterStyle = styled.div`
     border-radius: 6px;
     padding: ${({ theme }) => theme.spacing[16]} ${({ theme }) => theme.spacing[12]};
     width: 100%;
-    min-width: 1326px;
+    min-width: 0;
     display: flex;
     align-items: stretch;
 `;
@@ -28,8 +28,8 @@ const SearchFilterGroup = styled(Column)`
 `;
 
 const FilterFieldBox = styled.div`
-    flex: 0 0 ${({ $width }) => $width};
-    min-width: 0;
+    flex: 1 1 ${({ $width }) => $width};
+    min-width: min(100%, ${({ $width }) => $width});
 `;
 
 const FilterControlGroup = styled.div`

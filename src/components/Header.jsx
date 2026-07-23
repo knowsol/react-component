@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import GnbLeft from "@/components/GNB/GnbLeft";
 import Title from "@/components/Title/Title";
 import titleData from "@/components/Title/titleData";
 
@@ -15,7 +16,12 @@ const Header = () => {
     const { pathname } = useLocation();
     const current = titleData.find((item) => item.path === pathname);
 
-    return <HeaderBox>{current && <Title size="large" data={current} />}</HeaderBox>;
+    return (
+        <HeaderBox>
+            <GnbLeft homePath="/admin" />
+            {current && <Title size="large" data={current} />}
+        </HeaderBox>
+    );
 };
 
 export default Header;

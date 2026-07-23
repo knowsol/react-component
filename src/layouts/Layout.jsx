@@ -49,7 +49,7 @@ function Layout() {
                 <Outlet />
                 {!isMain && (
                     <BackBar>
-                        <BackButton to="/main">← 뒤로가기</BackButton>
+                        <BackButton to="/admin">← 뒤로가기</BackButton>
                     </BackBar>
                 )}
             </Main>

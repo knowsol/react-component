@@ -12,11 +12,11 @@ const GnbBar = styled.header`
     background-color: ${({ theme, $bg }) => $bg || theme.color.secondary.c50};
 `;
 
-function Gnb() {
+function Gnb({ homePath = "/admin", onLogout, logoutPath }) {
     return (
         <GnbBar>
-            <GnbLeft />
-            <GnbRight />
+            <GnbLeft homePath={homePath} />
+            <GnbRight onLogout={onLogout} logoutPath={logoutPath} />
         </GnbBar>
     );
 }

@@ -82,7 +82,7 @@ function DatepickerGroup() {
                 <StateColumn $gap={16}>
                     {rows.map((r) => (
                         <FieldGroup key={r.label} label={r.label} required={r.required}>
-                            <FieldControl state={r.state} helptext={r.helptext} width="135px">
+                            <FieldControl state={r.state} helptext={r.helptext} width="138px">
                                 <Datepicker state={r.state} placeholder={r.placeholder} defaultValue={r.defaultValue} />
                             </FieldControl>
                         </FieldGroup>

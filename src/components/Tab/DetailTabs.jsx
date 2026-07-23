@@ -26,7 +26,7 @@ const DetailTabButton = styled.button`
     margin-bottom: ${({ $active }) => ($active ? "-2px" : "0")};
     background: ${({ theme }) => theme.color.pure.white};
     color: ${({ theme, $active }) => ($active ? theme.color.neutral[900] : theme.color.neutral[600])};
-    font-size: ${({ theme }) => theme.font.size.medium};
+    font-size: ${({ theme }) => theme.font.size.base};
     font-weight: ${({ theme, $active }) => ($active ? theme.font.weight.bold : theme.font.weight.regular)};
     line-height: 18px;
     letter-spacing: -0.02em;

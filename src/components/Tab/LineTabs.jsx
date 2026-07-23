@@ -6,7 +6,7 @@ const LineTab = styled.button`
     padding: 10px 0;
     border: 0;
     background: transparent;
-    font-size: ${({ theme }) => theme.font.size.xsmall};
+    font-size: ${({ theme }) => theme.font.size.base};
     font-weight: ${({ theme }) => theme.font.weight.medium};
     line-height: 18px;
     letter-spacing: -0.02em;

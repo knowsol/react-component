@@ -54,6 +54,7 @@ const theme = {
             xsmall: "12px",
             small: "14px",
             primary: "15px",
+            base: "16px",
             medium: "18px",
             large: "20px",
             xl: "24px",
